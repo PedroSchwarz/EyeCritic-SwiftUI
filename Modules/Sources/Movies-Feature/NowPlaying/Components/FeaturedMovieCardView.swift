@@ -1,55 +1,76 @@
 import SwiftUI
 import Movies_Feature_Repository
+import Core_Resources
 
-struct FeaturedMovieCard: View {
+struct FeaturedMovieCardView: View {
     let movie: Movie
     
+    @State private var originalY: CGFloat = .zero
+    
     var body: some View {
-        VStack(alignment: .leading) {
-            Text("Latest Movie Released")
-                .font(.largeTitle)
-                .bold()
+        GeometryReader { proxy in
+            let minY = proxy.frame(in: .global).minY
+            let currentY = minY - originalY
             
-            GeometryReader { geo in
-                ZStack {
-                    //                                    MovieImage(image: movie.posterUrl, size: 300)
-                    //                                        .overlay(LinearGradient(
-                    //                                            colors: [Color.clear, Color.black.opacity(0.5), Color.black.opacity(0.6)],
-                    //                                            startPoint: .top,
-                    //                                            endPoint: .bottom
-                    //                                        )
-                    //                                            .cornerRadius(10)
-                    //                                        )
-                    
-                    VStack(alignment: .leading, spacing: 10) {
-                        Spacer()
-                        HStack {
-                            Text(movie.title)
-                                .font(.title2)
-                                .bold()
-                                .lineLimit(2)
-                            
-                            Spacer()
-                        }
+            ZStack {
+                ImageView(
+                    image: movie.backdropURL,
+                    height: 300
+                )
+                .overlay(
+                    LinearGradient(
+                        colors: [
+                            Color.clear,
+                            Color("SecondaryColor").opacity(0.5),
+                            Color("SecondaryColor").opacity(0.6)
+                        ],
+                        startPoint: .top,
+                        endPoint: .bottom
+                    )
+                    .cornerRadius(.s_m)
+                )
+                .modifier(OffsetDownOnScrollDownAnimation(currentY: currentY))
+
+                VStack(alignment: .leading, spacing: .s_m) {
+                    Spacer()
+                    HStack {
+                        Text(movie.title)
+                            .font(.title2)
+                            .bold()
                         
-                        Text(movie.overview)
-                            .font(.title3)
-                            .lineLimit(3)
+                        Spacer()
+                        
+                        DetailScoreView(
+                            size: .d_xl,
+                            value: movie.voteAverage,
+                            colors: [.accentColor, .red]
+                        )
                     }
-                    .multilineTextAlignment(.leading)
-                    .foregroundColor(.white)
-                    .padding()
+                    
+                    Text(movie.overview)
+                        .font(.title3)
+                        .lineLimit(3)
                 }
-                .shadow(color: Color.black, radius: 20, x: 0, y: 2)
+                .multilineTextAlignment(.leading)
+                .foregroundColor(.white)
+                .padding()
             }
-            .padding(.horizontal, 10)
-            .padding(.top, 30)
+            .shadow(color: Color.black, radius: 20, x: 0, y: 2)
+            .modifier(OffsetUpOnScrollDownAnimation(currentY: currentY))
+            .modifier(BlurOnScrollDownAnimation(currentY: currentY))
+            .modifier(ScaleUpOnScrollDownAnimation(currentY: currentY))
+            .onAppear {
+                if (originalY == .zero) {
+                    originalY = proxy.frame(in: .global).minY
+                }
+            }
         }
+        .frame(height: 300)
     }
 }
 
-struct FeaturedMovieCard_Previews: PreviewProvider {
+struct FeaturedMovieCardView_Previews: PreviewProvider {
     static var previews: some View {
-        FeaturedMovieCard(movie: .mock)
+        FeaturedMovieCardView(movie: .mock)
     }
 }

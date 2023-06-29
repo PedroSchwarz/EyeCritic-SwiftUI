@@ -1,11 +1,15 @@
 import SwiftUI
-import Movies_Feature_Repository
 
-struct ItemsGridView<T, Content>: View where T : Identifiable, Content : View {
+public struct ItemsGridView<T, Content>: View where T : Identifiable, Content : View {
     let items: [T]
     let content: (T) -> Content
     
-    var body: some View {
+    public init(items: [T], content: @escaping (T) -> Content) {
+        self.items = items
+        self.content = content
+    }
+    
+    public var body: some View {
         LazyVGrid(columns: Array.init(repeating: GridItem(.flexible(), spacing: 0), count: 2)) {
             ForEach(items) { item in
                 content(item)
@@ -18,11 +22,18 @@ struct ItemsGridView<T, Content>: View where T : Identifiable, Content : View {
 
 struct ItemsGridView_Previews: PreviewProvider {
     static var previews: some View {
-        ItemsGridView<Movie, Text>(
+        ItemsGridView<MockModel, Text>(
             items: [.mock],
             content: {
                 Text($0.title)
             }
         )
+    }
+    
+    struct MockModel: Identifiable {
+        let id: Int
+        let title: String
+        
+        static let mock: Self = .init(id: 1, title: "")
     }
 }

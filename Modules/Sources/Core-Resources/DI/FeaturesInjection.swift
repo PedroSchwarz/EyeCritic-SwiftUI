@@ -1,8 +1,5 @@
-//
-//  File.swift
-//  
-//
-//  Created by Pedro Rodrigues on 10/06/23.
-//
+import Swinject
 
-import Foundation
+public struct FeaturesInjection {
+    public static let container = Container()
+}

@@ -1,14 +1,21 @@
 import SwiftUI
-import Core_Resources
+import Foundation
 
-struct LoadMoreView: View {
+public struct LoadMoreView: View {
     let isLoading: Bool
     let onLoadMore: () -> Void
+    let deviceSize: DeviceSizeType =
+    FeaturesInjection.container.resolve(DeviceSizeType.self)!
     
-    var body: some View {
+    public init(isLoading: Bool, onLoadMore: @escaping () -> Void) {
+        self.isLoading = isLoading
+        self.onLoadMore = onLoadMore
+    }
+    
+    public var body: some View {
         GeometryReader { proxy in
             if isLoading == false &&
-                proxy.frame(in: .global).minY < UIScreen.main.bounds.height - 200 {
+                getShouldLoadMoreOnScrollDistance(for: proxy.frame(in: .global).minY) {
                 VStack {}.onAppear {  withAnimation { onLoadMore() } }
             } else if isLoading {
                 HStack() {
@@ -19,6 +26,15 @@ struct LoadMoreView: View {
             }
         }
         .padding(.vertical, .s_xl)
+    }
+    
+    private func getShouldLoadMoreOnScrollDistance(for minY: CGFloat) -> Bool {
+        switch deviceSize {
+        case .iPhone(let height):
+            return minY < height - 200
+        case .watch(let height):
+            return minY < height - 100
+        }
     }
 }
 

@@ -2,24 +2,32 @@ import SwiftUI
 import Movies_Feature_Repository
 import Core_Resources
 
-struct FeaturedMovieSection: View {
+struct FeaturedMovieSectionView: View {
     let movie: Movie
     
     var body: some View {
         VStack(alignment: .leading) {
             Text("Latest Movie Released")
-                .font(.largeTitle)
                 .bold()
-            
+                .if(
+                    .isWatchOS,
+                    transform: {
+                        $0.font(.body)
+                    },
+                    else: {
+                        $0.font(.largeTitle)
+                    }
+                )
+                 
             FeaturedMovieCardView(movie: movie)
         }
-        .padding(.horizontal, 10)
-        .padding(.top, 30)
+        .padding(.horizontal, .s_s)
+        .padding(.top, .s_xl)
     }
 }
 
-struct FeaturedMovieSection_Previews: PreviewProvider {
+struct FeaturedMovieSectionView_Previews: PreviewProvider {
     static var previews: some View {
-        FeaturedMovieSection(movie: .mock)
+        FeaturedMovieSectionView(movie: .mock)
     }
 }

@@ -1,26 +1,34 @@
 import Foundation
 
 public struct Movie : Identifiable {
-    public var id: Int
-    public var adult: Bool
-    public var backdropUrl: String?
-    public var originalTitle: String
-    public var overview: String
-    public var posterUrl: String?
-    public var releaseDate: String
-    public var title: String
-    public var voteAverage: Double
-    public var voteCount: Int
-    public var watchLater: Bool
-    public var favorite: Bool
+    public let id: Int
+    public let adult: Bool
+    public let backdropPath: String?
+    public let originalTitle: String
+    public let overview: String
+    public let posterPath: String?
+    public let releaseDate: String
+    public let title: String
+    public let voteAverage: Double
+    public let voteCount: Int
+    public let watchLater: Bool
+    public let favorite: Bool
+    
+    public var backdropURL: String {
+        "https://image.tmdb.org/t/p/w300/\(backdropPath ?? "")"
+    }
+    
+    public var posterURL: String {
+        "https://image.tmdb.org/t/p/w154/\(posterPath ?? "")"
+    }
     
     public init(
         id: Int,
         adult: Bool,
-        backdropUrl: String? = nil,
+        backdropPath: String? = nil,
         originalTitle: String,
         overview: String,
-        posterUrl: String? = nil,
+        posterPath: String? = nil,
         releaseDate: String,
         title: String,
         voteAverage: Double,
@@ -30,10 +38,10 @@ public struct Movie : Identifiable {
     ) {
         self.id = id
         self.adult = adult
-        self.backdropUrl = backdropUrl
+        self.backdropPath = backdropPath
         self.originalTitle = originalTitle
         self.overview = overview
-        self.posterUrl = posterUrl
+        self.posterPath = posterPath
         self.releaseDate = releaseDate
         self.title = title
         self.voteAverage = voteAverage

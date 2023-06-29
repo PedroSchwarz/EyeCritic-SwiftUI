@@ -1,37 +1,39 @@
 import SwiftUI
 import Kingfisher
-import Core_Resources
 
-struct MovieImageView: View {
+public struct ImageView: View {
     let image: String?
     let height: CGFloat
     
-    init(image: String? = nil, height: CGFloat = 250) {
+    public init(image: String? = nil, height: CGFloat) {
         self.image = image
         self.height = height
     }
     
-    var body: some View {
+    public var body: some View {
         if let image = image, let url = URL(string: image) {
-            KFImage.url(url)
-                .placeholder({
-                    VStack {
-                        Spacer()
-                        HStack {
+            GeometryReader { proxy in
+                KFImage.url(url)
+                    .placeholder({
+                        VStack {
                             Spacer()
-                            ProgressView()
+                            HStack {
+                                Spacer()
+                                ProgressView()
+                                Spacer()
+                            }
                             Spacer()
                         }
-                        Spacer()
-                    }
-                    .background(Color.secondary.opacity(0.2))
-                })
-                .cacheMemoryOnly()
-                .fade(duration: 0.1)
-                .resizable()
-                .scaledToFill()
-                .frame(maxWidth: UIScreen.main.bounds.width, maxHeight: height)
-                .clipShape(RoundedRectangle(cornerRadius: .s_m))
+                        .background(Color.secondary.opacity(0.2))
+                    })
+                    .cacheMemoryOnly()
+                    .fade(duration: 0.1)
+                    .resizable()
+                    .scaledToFill()
+                    .frame(maxWidth: proxy.frame(in: .global).width, maxHeight: height)
+                    .clipShape(RoundedRectangle(cornerRadius: .s_m))
+            }
+            .frame(height: height)
         } else {
             HStack {
                 Spacer()
@@ -42,8 +44,8 @@ struct MovieImageView: View {
     }
 }
 
-struct MovieImageView_Previews: PreviewProvider {
+struct ImageView_Previews: PreviewProvider {
     static var previews: some View {
-        MovieImageView()
+        ImageView(height: 250)
     }
 }

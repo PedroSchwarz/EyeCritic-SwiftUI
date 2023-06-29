@@ -1,20 +1,49 @@
-//
-//  SwiftUIView.swift
-//  
-//
-//  Created by Pedro Rodrigues on 09/06/23.
-//
-
 import SwiftUI
+import Core_Resources
+import Movies_Feature
 
-struct SwiftUIView: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+public struct HomeView: View {
+    @StateObject var viewModel: HomeViewModel =
+    FeaturesInjection.container.resolve(HomeViewModel.self)!
+    
+    public init() { }
+    
+    public var body: some View {
+        NavigationStack {
+            VStack {
+                switch viewModel.state.currentSection {
+                case .movies:
+                    NowPlayingView()
+                case .series:
+                    Text("Series")
+                case .actors:
+                    Text("Actors")
+                }
+            }
+            .toolbar {
+                ToolbarItem(
+                    placement: .navigationBarLeading,
+                    content: {
+                        MenuIcon { withAnimation { viewModel.toggleMenu() } }
+                    }
+                )
+            }
+        }
+        .overlay(alignment: .leading) {
+            if viewModel.state.isMenuOpen {
+                HomeMenuView(
+                    currentSection: viewModel.state.currentSection,
+                    onSectionSelected: viewModel.setSection(selectedSecion:),
+                    onCloseMenu: { withAnimation { viewModel.toggleMenu() } }
+                )
+                .transition(.move(edge: .leading))
+            }
+        }
     }
 }
 
-struct SwiftUIView_Previews: PreviewProvider {
+struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
-        SwiftUIView()
+        HomeView()
     }
 }

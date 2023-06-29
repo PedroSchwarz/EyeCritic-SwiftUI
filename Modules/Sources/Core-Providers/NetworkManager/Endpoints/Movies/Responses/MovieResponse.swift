@@ -1,16 +1,16 @@
 import Foundation
 
 public struct MovieResponse : Decodable {
-    var id: Int
-    var adult: Bool
-    var backdropPath: String?
-    var originalTitle: String
-    var overview: String
-    var posterPath: String?
-    var releaseDate: String
-    var title: String
-    var voteAverage: Double
-    var voteCount: Int
+    public let id: Int
+    public let adult: Bool
+    public let backdropPath: String?
+    public let originalTitle: String
+    public let overview: String
+    public let posterPath: String?
+    public let releaseDate: String
+    public let title: String
+    public let voteAverage: Double
+    public let voteCount: Int
     
     enum CodingKeys: String, CodingKey {
         case id

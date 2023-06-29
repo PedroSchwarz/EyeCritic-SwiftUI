@@ -1,9 +1,9 @@
 import SwiftUI
 
 struct HomeMenuItemView: View {
-    let currentSection: AppSection
-    let section: AppSection
-    let onSelected: (AppSection) -> Void
+    let currentSection: HomeSection
+    let section: HomeSection
+    let onSelected: (HomeSection) -> Void
     let title: String
     
     var body: some View {
@@ -15,6 +15,8 @@ struct HomeMenuItemView: View {
                         .foregroundColor(currentSection == section ? .blue : .primary)
                     Spacer()
                     Image(systemName: "chevron.right")
+                        .resizable()
+                        .frame(width: .s_xs, height: .s_m)
                         .foregroundColor(.primary)
                 }
             }

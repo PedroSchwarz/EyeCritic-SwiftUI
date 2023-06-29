@@ -13,17 +13,15 @@ public struct MenuIcon: View {
             label: {
                 VStack(alignment: .leading, spacing: .s_xs) {
                     Rectangle()
-                        .fill(.primary)
                         .frame(width: .d_xm, height: .d_xxs)
                     
                     Rectangle()
-                        .fill(.primary)
                         .frame(width: .d_xm, height: .d_xxs)
                     
                     Rectangle()
-                        .fill(.primary)
                         .frame(width: .d_xm, height: .d_xxs)
                 }
+                .foregroundColor(.primary)
             }
         )
     }
