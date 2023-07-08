@@ -4,6 +4,7 @@ import Core_Resources
 
 struct FeaturedMovieSectionView: View {
     let movie: Movie
+    let onPressed: () -> Void
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -18,8 +19,10 @@ struct FeaturedMovieSectionView: View {
                         $0.font(.largeTitle)
                     }
                 )
-                 
-            FeaturedMovieCardView(movie: movie)
+             
+                FeaturedMovieCardView(movie: movie)
+                    .onTapGesture { onPressed() }
+                    
         }
         .padding(.horizontal, .s_s)
         .padding(.top, .s_xl)
@@ -28,6 +31,6 @@ struct FeaturedMovieSectionView: View {
 
 struct FeaturedMovieSectionView_Previews: PreviewProvider {
     static var previews: some View {
-        FeaturedMovieSectionView(movie: .mock)
+        FeaturedMovieSectionView(movie: .mock, onPressed: { })
     }
 }

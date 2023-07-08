@@ -31,7 +31,7 @@ public struct LoadMoreView: View {
     private func getShouldLoadMoreOnScrollDistance(for minY: CGFloat) -> Bool {
         switch deviceSize {
         case .iPhone(let height):
-            return minY < height - 200
+            return minY < height - 150
         case .watch(let height):
             return minY < height - 100
         }

@@ -5,12 +5,14 @@ import Core_Resources
 struct MovieCardView: View {
     let movie: Movie
     let height: CGFloat
+    let onPressed: () -> Void
     
     @State private var originalY: CGFloat = .zero
     
-    init(movie: Movie, height: CGFloat = 250) {
+    init(movie: Movie, height: CGFloat = 250, onPressed: @escaping () -> Void) {
         self.movie = movie
         self.height = height
+        self.onPressed = onPressed
     }
     
     var body: some View {
@@ -95,6 +97,7 @@ struct MovieCardView: View {
                         originalY = proxy.frame(in: .global).minY
                     }
                 }
+                .onTapGesture { onPressed() }
         }
         .frame(height: height)
     }
@@ -102,6 +105,6 @@ struct MovieCardView: View {
 
 struct MovieCardView_Previews: PreviewProvider {
     static var previews: some View {
-        MovieCardView(movie: .mock)
+        MovieCardView(movie: .mock, onPressed: { })
     }
 }

@@ -25,5 +25,6 @@ struct AppModules {
         container.register(MoviesEndpoints.self) { r in MoviesEndpoints(server: r.resolve(NetworkManager.self)!) }
         container.register(MoviesService.self) { r in MoviesService.live(endpoint: r.resolve(MoviesEndpoints.self)!) }
         container.register(NowPlayingViewModel.self) { r in NowPlayingViewModel(service: r.resolve(MoviesService.self)!) }
+        container.register(MoviesRoutesViewModel.self) { r in MoviesRoutesViewModel() }
     }
 }

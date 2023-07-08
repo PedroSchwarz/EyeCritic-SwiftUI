@@ -1,4 +1,5 @@
 import Movies_Feature_Repository
+import SwiftUI
 
 public extension NowPlayingViewModel {
     struct State {

@@ -15,7 +15,6 @@ public class NowPlayingViewModel: ObservableObject {
         state.isLoading = true
         service
             .getNowPlaying(nextPage)
-            .delay(for: 2, scheduler: DispatchQueue.main)
             .receive(on: DispatchQueue.main)
             .sink(
                 receiveCompletion: { [weak self] status in
